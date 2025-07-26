@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real or AI?</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- START SCREEN -->
+  <div id="startScreen" class="start-screen">
+    <h1>Welcome to Truth or Tech</h1>
+    <p>Can you tell which videos are Truth (Real) and which are Tech (Ai-generated)?</p>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <!-- GAME CONTAINER -->
+  <div id="gameContainer" class="container" style="display: none;">
+    <h1>Is This Video Real or AI-Generated?</h1>
+
+    <video id="videoPlayer" width="640" height="360" controls autoplay></video>
+
+    <div class="buttons">
+      <button onclick="makeGuess('real')">Truth (Real)</button>
+      <button onclick="makeGuess('ai')">Tech (AI-Generated)</button>
+    </div>
+
+    <div id="result" class="result"></div>
+
+    <!-- only this toggle button -->
+    <button id="explanationToggle" class="explain-btn" style="display: none;" onclick="showOverlay()">
+      View Explanation
+    </button>
+
+    <div id="scoreDisplay" class="score"></div>
+
+    <button onclick="nextVideo()" id="nextButton" class="next-btn" style="display: none;">
+      Next Video
+    </button>
+  </div>
+
+  <!-- FULL-SCREEN EXPLANATION OVERLAY -->
+  <div id="explanationOverlay" class="overlay" style="display: none;">
+    <div class="overlay-content">
+      <button class="close-btn" onclick="hideOverlay()">×</button>
+      <h2>Why it looks AI:</h2>
+      <p id="overlayReason"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+  <!-- END SCREEN -->
+<div id="endScreen" class="end-screen" style="display: none;">
+  <h1>All videos have been watched!</h1>
+  <button onclick="returnToMenu()">Return to Main Menu</button>
+  <button onclick="showGallery()">Learn How to Spot AI</button>
+</div>
+
+<!-- AI GALLERY OVERLAY -->
+<div id="galleryOverlay" class="overlay" style="display: none;">
+  <div class="overlay-content gallery-content">
+    <button class="close-btn" onclick="hideGallery()">×</button>
+    <h2>AI Videos You Watched</h2>
+    <div id="thumbnailList" class="thumbnail-list"></div>
+  </div>
+</div>
+
+<!-- PLAYBACK OVERLAY -->
+<div id="playbackOverlay" class="overlay" style="display: none;">
+  <div class="overlay-content playback-content">
+    <button class="close-btn" onclick="hidePlayback()">×</button>
+    <video id="playbackVideo" width="100%" controls></video>
+    <p id="playbackReason"></p>
+  </div>
+</div>
+
+</body>
+</html>
