@@ -1,25 +1,50 @@
-const videos = [
-  { id: 'ai1', url: 'videos/ai/ai1.mp4', label: 'ai', reason: 'Blurry eyes and unnatural hand motion.' },
-  { id: 'ai2', url: 'videos/ai/ai2.mp4', label: 'ai', reason: 'Strange facial flickering and inconsistent lighting.' },
-  { id: 'real1', url: 'videos/real/real1.mp4', label: 'real' },
-  { id: 'real2', url: 'videos/real/real2.mp4', label: 'real' },
-  { id: 'ai3', url: 'videos/ai/ai3.mp4', label: 'ai', reason: 'Unnatural smile and robotic movements.' },
-  { id: 'real3', url: 'videos/real/real3.mp4', label: 'real' },
-  { id: 'ai4', url: 'videos/ai/ai4.mp4', label: 'ai', reason: 'Inconsistent eye blinking and odd gestures.' },
-  { id: 'real4', url: 'videos/real/real4.mp4', label: 'real' },
-  { id: 'ai5', url: 'videos/ai/ai5.mp4', label: 'ai', reason: 'Unnatural skin texture and lighting.' },
-  { id: 'real5', url: 'videos/real/real5.mp4', label: 'real' }
-];
+let currentDifficulty = null;
+let allVideos = {
+  easy: [
+    { id: 'ai1', url: 'Videos/ai/ai1.mp4', label: 'ai', reason: 'Blurry eyes and unnatural hand motion.' },
+    { id: 'ai2', url: 'Videos/ai/ai2.mp4', label: 'ai', reason: 'Strange facial flickering and inconsistent lighting.' },
+    { id: 'real1', url: 'Videos/real/real1.mp4', label: 'real' },
+    { id: 'real2', url: 'Videos/real/real2.mp4', label: 'real' },
+    { id: 'ai3', url: 'Videos/ai/ai3.mp4', label: 'ai', reason: 'Unnatural smile and robotic movements.' },
+    { id: 'real3', url: 'Videos/real/real3.mp4', label: 'real' },
+    { id: 'ai4', url: 'Videos/ai/ai4.mp4', label: 'ai', reason: 'Inconsistent eye blinking and odd gestures.' },
+    { id: 'real4', url: 'Videos/real/real4.mp4', label: 'real' },
+    { id: 'ai5', url: 'Videos/ai/ai5.mp4', label: 'ai', reason: 'Unnatural skin texture and lighting.' },
+    { id: 'real5', url: 'Videos/real/real5.mp4', label: 'real' }
+  ],
+  hard: [
+    { id: 'ai6', url: 'Videos/ai/ai6.mp4', label: 'ai', reason: 'Subtle glitching in the background and off-sync audio.' },
+    { id: 'ai7', url: 'Videos/ai/ai7.mp4', label: 'ai', reason: 'Over-smooth skin and irregular motion blur.' },
+    { id: 'real6', url: 'Videos/real/real6.mp4', label: 'real' },
+    { id: 'real7', url: 'Videos/real/real7.mp4', label: 'real' },
+    { id: 'ai8', url: 'Videos/ai/ai8.mp4', label: 'ai', reason: 'Glassy eyes and frame blending artifacts.' },
+    { id: 'real8', url: 'Videos/real/real8.mp4', label: 'real' },
+    { id: 'ai9', url: 'Videos/ai/ai9.mp4', label: 'ai', reason: 'Too-perfect symmetry and robotic head movements.' },
+    { id: 'real9', url: 'Videos/real/real9.mp4', label: 'real' },
+    { id: 'ai10', url: 'Videos/ai/ai10.mp4', label: 'ai', reason: 'Low eyelid activity and unusual motion transitions.' },
+    { id: 'real10', url: 'Videos/real/real10.mp4', label: 'real' }
+  ]
+};
 
+let videos = []; // dynamic list, assigned per difficulty
 let currentIndex = 0;
 let score = 0;
 let autoAdvanceTimer = null;
+let shownAI = [];
 
-function startGame() {
+function showDifficulty() {
   document.getElementById("startScreen").style.display = "none";
-  document.getElementById("gameContainer").style.display = "block";
+  document.getElementById("difficultyScreen").style.display = "block";
+}
+
+function startGame(difficulty) {
+  currentDifficulty = difficulty;
+  videos = [...allVideos[difficulty]];
   currentIndex = 0;
   score = 0;
+  shownAI = [];
+  document.getElementById("difficultyScreen").style.display = "none";
+  document.getElementById("gameContainer").style.display = "block";
   loadVideo();
   updateScore();
 }
@@ -44,14 +69,14 @@ function loadVideo() {
 }
 
 function makeGuess(guess) {
-  const correct = videos[currentIndex].label;
-  const reason  = videos[currentIndex].reason;
+  const video = videos[currentIndex];
+  const correct = video.label;
+  const reason  = video.reason;
   const resultEl = document.getElementById("result");
   const toggle   = document.getElementById("explanationToggle");
   const overlayTxt = document.getElementById("overlayReason");
   const nextBtn  = document.getElementById("nextButton");
 
-  // show correct/wrong
   if (guess === correct) {
     resultEl.textContent = "✅ Correct!";
     resultEl.style.color = "lime";
@@ -61,13 +86,15 @@ function makeGuess(guess) {
     resultEl.style.color = "crimson";
   }
 
-  // if there's an explanation, show the toggle
   if (reason) {
     overlayTxt.textContent = reason;
     toggle.style.display = "inline-block";
   }
 
-  // show Next Video button and schedule auto-advance
+  if (video.label === "ai" && !shownAI.find(v => v.id === video.id)) {
+    shownAI.push(video);
+  }
+
   nextBtn.style.display = "inline-block";
   autoAdvanceTimer = setTimeout(() => {
     nextVideo();
@@ -80,7 +107,7 @@ function showOverlay() {
   // cancel auto-advance
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
 
-  // update button to “Move On”
+  // update button to "Move On"
   const nextBtn = document.getElementById("nextButton");
   nextBtn.textContent = "Move On";
 
@@ -96,21 +123,6 @@ function updateScore() {
   document.getElementById("scoreDisplay").textContent =
     `Score: ${score}/${videos.length}`;
 }
-
-function nextVideo() {
-  // clear any timer just in case
-  if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
-
-  currentIndex++;
-  if (currentIndex >= videos.length) {
-    alert(`Game Over! Final score: ${score}/${videos.length}`);
-    startGame();
-  } else {
-    loadVideo();
-  }
-}
-
-let shownAI = [];
 
 function nextVideo() {
   if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
@@ -168,44 +180,9 @@ function hidePlayback() {
   player.currentTime = 0;
 }
 
-// Modify makeGuess to track shown AI videos
-function makeGuess(guess) {
-  const video = videos[currentIndex];
-  const correct = video.label;
-  const reason  = video.reason;
-  const resultEl = document.getElementById("result");
-  const toggle   = document.getElementById("explanationToggle");
-  const overlayTxt = document.getElementById("overlayReason");
-  const nextBtn  = document.getElementById("nextButton");
-
-  if (guess === correct) {
-    resultEl.textContent = "✅ Correct!";
-    resultEl.style.color = "lime";
-    score++;
-  } else {
-    resultEl.textContent = "❌ Wrong!";
-    resultEl.style.color = "crimson";
-  }
-
-  if (reason) {
-    overlayTxt.textContent = reason;
-    toggle.style.display = "inline-block";
-  }
-
-  if (video.label === "ai" && !shownAI.find(v => v.id === video.id)) {
-    shownAI.push(video);
-  }
-
-  nextBtn.style.display = "inline-block";
-  autoAdvanceTimer = setTimeout(() => {
-    nextVideo();
-  }, 3000);
-
-  updateScore();
-}
-
 // initialize
 window.onload = () => {
   document.getElementById("startScreen").style.display = "block";
   document.getElementById("gameContainer").style.display = "none";
+  document.getElementById("difficultyScreen").style.display = "none";
 };
