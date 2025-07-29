@@ -17,7 +17,9 @@ html, body {
   font-size: 100px;
 }
 
-
+.question {
+  color: white
+}
 .container {
   max-width: 800px;
   margin: auto;
@@ -331,6 +333,9 @@ body {
   transform: scale(1.05);
   display: block;
 }
+.startButton:active {
+  transform: scale(0.95);
+}
 .description {
   margin-top: -60px;
   color: white
@@ -357,4 +362,93 @@ body {
 
 .hideLearn{
   transition: ease-out 1s;
+}
+
+.learnButton {
+  background: linear-gradient(to right, #4f46e5, #3b82f6);
+  color: white;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto;
+  width: 140px;
+  height: 20px;
+  font-size: 10px;
+}
+.difficulty-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.difficultyText {
+  font-size: 5rem;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.difficulty-screen {
+  animation: fadeInScale 0.4s ease;
+}
+.container {
+  animation: fadeInScale 0.4s ease;
+}
+@keyframes fadeInScale {
+  from { 
+    opacity: 0; 
+    transform: scale(0.8) translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+
+.easyButton {
+  background: linear-gradient(to right, #10b981, #059669);
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px;
+}
+
+.hardButton {
+  background: linear-gradient(to right, #10b981, #059669);
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px;
+}
+
+.easyButton:hover {
+  background: linear-gradient(to right, #34d399, #10b981);
+  transform: scale(1.05);
+}
+
+.hardButton:hover {
+  background: linear-gradient(to right, #34d399, #10b981);
+  transform: scale(1.05);
+  font-weight: bold;
+}
+
+.easyButton:active, .hardButton:active {
+  transform: scale(0.95);
 }
