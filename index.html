@@ -6,7 +6,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Real or AI?</title>
+  <link rel="icon up" href="icon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="style.css" />
+
 </head>
 <body>
   <!-- START SCREEN -->
@@ -14,14 +16,21 @@
     <h1 class="welcome">Truth or Tech</h1>
     <p class="description">Can you tell which videos are Truth (Real) and which are Tech (Ai-generated)?</p>
     <img src="logo.png" class="logo" alt="Truth or Tech Logo" />
-    <button class="startButton" onclick="startGame()">Start Test</button>
-    <button class="learnButton" onclick="openLearn">What this is</button>
+    <button class="startButton" onclick="showDifficulty()">Start Test</button>
+    <button class="learnButton" onclick="window.open('https://en.wikipedia.org/wiki/AI_safety', '_blank')">
+      Learn About AI Safety
+    </button>
   </div>
 
+  <div id="difficultyScreen" class="difficulty-screen" style="display: none;">
+    <h2 class=" difficultyText">Select Difficulty</h2>
+    <button class="easyButton" onclick="startGame('easy')">Easy Test</button>
+    <button class="hardButton" onclick="startGame('hard')">Hard Test</button>
   </div>
+
   <!-- GAME CONTAINER -->
   <div id="gameContainer" class="container" style="display: none;">
-    <h1>Is This Video Real or AI-Generated?</h1>
+    <h1 class="question">Is This Video Real or AI-Generated?</h1>
 
     <video id="videoPlayer" width="640" height="360" controls autoplay></video>
 
@@ -71,7 +80,7 @@
   </div>
 </div>
 
- <div id="learnOverlay" class="overlaylearn">
+ <div id="learnOverlay" class="overlay">
   <div class="overlay-content learn-content">
     <button class="close-btn" onclick="hideLearn()">×</button>
     <h2>What is this?</h2>
