@@ -149,6 +149,10 @@ function hideGallery() {
   document.getElementById("galleryOverlay").style.display = "none";
 }
 
+function hideLearn(){
+  document.getElementById("learnOverlay").style.display = "none";
+}
+
 function showPlayback(video) {
   const player = document.getElementById("playbackVideo");
   const reason = document.getElementById("playbackReason");
