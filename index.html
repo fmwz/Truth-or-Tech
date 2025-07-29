@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,11 +11,14 @@
 <body>
   <!-- START SCREEN -->
   <div id="startScreen" class="start-screen">
-    <h1>Welcome to Truth or Tech</h1>
-    <p>Can you tell which videos are Truth (Real) and which are Tech (Ai-generated)?</p>
-    <button onclick="startGame()">Start Game</button>
+    <h1 class="welcome">Truth or Tech</h1>
+    <p class="description">Can you tell which videos are Truth (Real) and which are Tech (Ai-generated)?</p>
+    <img src="logo.png" class="logo" alt="Truth or Tech Logo" />
+    <button class="startButton" onclick="startGame()">Start Test</button>
+    <button class="learnButton" onclick="openLearn">What this is</button>
   </div>
 
+  </div>
   <!-- GAME CONTAINER -->
   <div id="gameContainer" class="container" style="display: none;">
     <h1>Is This Video Real or AI-Generated?</h1>
@@ -66,6 +71,14 @@
   </div>
 </div>
 
+ <div id="learnOverlay" class="overlaylearn">
+  <div class="overlay-content learn-content">
+    <button class="close-btn" onclick="hideLearn()">×</button>
+    <h2>What is this?</h2>
+    <p>This project exists to show the dangers of AI generated content, and to improve humans' ability in detecting such content. This test tests your ability to distinguish between real videos and AI-generated content. AI technology can create realistic videos that may be difficult to differentiate from real ones.</p>
+    <p>Learn more about AI and how to spot it in our gallery, after taking the test</p>
+  </div>
+ </div>
 <!-- PLAYBACK OVERLAY -->
 <div id="playbackOverlay" class="overlay" style="display: none;">
   <div class="overlay-content playback-content">
